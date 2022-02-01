@@ -95,9 +95,10 @@
   padding-bottom: 30px;
 }
 
-.twitter-logo {
+.github-logo {
   width: 35px;
   height: 35px;
+  margin: auto 15px;
 }
 
 .footer-text {

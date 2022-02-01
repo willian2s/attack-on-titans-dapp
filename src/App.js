@@ -1,33 +1,30 @@
-import React from 'react';
-import twitterLogo from './assets/twitter-logo.svg';
-import './App.css';
+import React from "react";
+import githubLogo from "./assets/github-logo.svg";
+import "./App.css";
 
 // Constants
-const TWITTER_HANDLE = '_buildspace';
-const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+const GITHUB_HANDLE = "willian2s";
+const GITHUB_LINK = `https://github.com/${GITHUB_HANDLE}`;
 
 const App = () => {
   return (
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <p className="header gradient-text">⚔️ Metaverse Slayer ⚔️</p>
+          <p className="header gradient-text">Attack On Titans - Metaverse</p>
           <p className="sub-text">Team up to protect the Metaverse!</p>
           <div className="connect-wallet-container">
-            <img
-              src="https://64.media.tumblr.com/tumblr_mbia5vdmRd1r1mkubo1_500.gifv"
-              alt="Monty Python Gif"
-            />
+            <img src="https://i.gifer.com/68sE.gif" alt="Monty Python Gif" />
           </div>
         </div>
         <div className="footer-container">
-          <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
+          <img alt="Github Logo" className="github-logo" src={githubLogo} />
           <a
             className="footer-text"
-            href={TWITTER_LINK}
+            href={GITHUB_LINK}
             target="_blank"
             rel="noreferrer"
-          >{`built with @${TWITTER_HANDLE}`}</a>
+          >{`built with @${GITHUB_HANDLE}`}</a>
         </div>
       </div>
     </div>
