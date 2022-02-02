@@ -13,6 +13,7 @@
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-template-rows: repeat(auto-fit, minmax(300px, 1fr));
   grid-row-gap: 15px;
+  padding: 2rem 0;
 }
 
 .character-grid .character-item {
@@ -27,12 +28,13 @@
   height: 300px;
   width: 350px;
   border-radius: 10px;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: #838383;
 }
 
 .character-item .name-container {
   position: absolute;
-  background-color: #838383;
+  background-color: #ff8177;
   border-radius: 5px;
   margin: 10px;
 }
@@ -52,8 +54,19 @@
   border-bottom-right-radius: 10px;
   border: none;
   cursor: pointer;
-  background-color: rgb(32, 129, 226);
   color: white;
   font-weight: bold;
   font-size: 16px;
+
+  background-image: linear-gradient(
+    to right,
+    #ff8177 0%,
+    #ff867a 0%,
+    #ff8c7f 21%,
+    #f99185 52%,
+    #cf556c 78%,
+    #b12a5b 100%
+  );
+  background-size: 200% 200%;
+  animation: gradient-animation 4s ease infinite;
 }
