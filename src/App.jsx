@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { SelectCharacter } from "./Components/SelectCharacter";
+import { Arena } from "./Components/Arena";
+import { LoadingIndicator } from "./Components/LoadingIndicator";
+import GithubLogo from "./assets/github-logo.svg";
 
 import AttackOnTitans from "./utils/AttackOnTitans.json";
 import { CONTRACT_ADDRESS, transformCharacterData } from "./config/constants";
 
-import githubLogo from "./assets/github-logo.svg";
 import "./App.css";
 
 // Constants
@@ -15,6 +17,7 @@ const GITHUB_LINK = `https://github.com/${GITHUB_HANDLE}`;
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [characterNFT, setCharacterNFT] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const contractABI = AttackOnTitans.abi;
 
   const { ethereum } = window;
@@ -33,6 +36,7 @@ const App = () => {
     try {
       if (!ethereum) {
         console.log("Make sure you have MetaMask!");
+        setIsLoading(false);
         return;
       } else {
         console.log("Yo have the ethereum object: ", ethereum);
@@ -50,6 +54,7 @@ const App = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const connectWallet = async () => {
@@ -93,9 +98,14 @@ const App = () => {
     } else {
       console.log("No character NFT found");
     }
+
+    setIsLoading(false);
   };
 
   const renderContent = () => {
+    if (isLoading) {
+      return <LoadingIndicator />;
+    }
     if (!currentAccount) {
       return (
         <div className="connect-wallet-container">
@@ -110,6 +120,10 @@ const App = () => {
       );
     } else if (currentAccount && !characterNFT) {
       return <SelectCharacter setCharacterNFT={setCharacterNFT} />;
+    } else if (currentAccount && characterNFT) {
+      return (
+        <Arena characterNFT={characterNFT} setCharacterNFT={setCharacterNFT} />
+      );
     }
   };
 
@@ -117,6 +131,7 @@ const App = () => {
     if (ethereum.networkVersion) {
       checkNetwork();
     }
+    setIsLoading(true);
     checkIfWalletIsConnected();
   }, []);
 
@@ -136,7 +151,7 @@ const App = () => {
           {renderContent()}
         </div>
         <div className="footer-container">
-          <img alt="Github Logo" className="github-logo" src={githubLogo} />
+          <img alt="Github Logo" className="github-logo" src={GithubLogo} />
           <a
             className="footer-text"
             href={GITHUB_LINK}

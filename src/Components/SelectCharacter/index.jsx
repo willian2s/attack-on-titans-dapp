@@ -8,10 +8,12 @@ import {
 } from "../../config/constants";
 
 import "./SelectCharacter.css";
+import { LoadingIndicator } from "../LoadingIndicator";
 
 export const SelectCharacter = ({ setCharacterNFT }) => {
   const [characters, setCharacters] = useState([]);
   const [gameContract, setGameContract] = useState(null);
+  const [mintingCharacter, setMintingCharacter] = useState(false);
 
   const contractABI = AttackOnTitans.abi;
 
@@ -52,13 +54,16 @@ export const SelectCharacter = ({ setCharacterNFT }) => {
   const mintCharacterNFTAction = async (characterId) => {
     try {
       if (gameContract) {
+        setMintingCharacter(true);
         console.log("Minting character in process...");
         const mintTxn = await gameContract.mintCharacterNFT(characterId);
         await mintTxn.wait();
         console.log("mintTxn: ", mintTxn);
+        setMintingCharacter(false);
       }
     } catch (error) {
       console.warn("MintCharacterAction Error:", error);
+      setMintingCharacter(false);
     }
   };
 
@@ -68,7 +73,10 @@ export const SelectCharacter = ({ setCharacterNFT }) => {
         <div className="name-container">
           <p>{character.name}</p>
         </div>
-        <img src={character.imageURI} alt={character.name} />
+        <img
+          src={`https://cloudflare-ipfs.com/ipfs/${character.imageURI}`}
+          alt={character.name}
+        />
         <button
           type="button"
           className="character-mint-button"
@@ -109,8 +117,16 @@ export const SelectCharacter = ({ setCharacterNFT }) => {
   return (
     <div className="select-character-container">
       <h2>Mint Your Wing. Choose wisely!</h2>
-      {characters.length > 0 && (
+      {!mintingCharacter && characters.length > 0 && (
         <div className="character-grid">{renderCharacters()}</div>
+      )}
+      {mintingCharacter && (
+        <div className="loading">
+          <div className="indicator">
+            <LoadingIndicator />
+            <p>Minting In Progress...</p>
+          </div>
+        </div>
       )}
     </div>
   );
